@@ -1401,33 +1401,55 @@ arrows show how the modules augment each other.<a href="#section-4-4" class="pil
 </div>
 <p id="section-4-6">There are some limitations in the <span>[<a href="#RFC8345" class="cite xref">RFC8345</a>]</span> that are explained in more detail in <span>[<a href="#I-D.draft-havel-opsawg-digital-map" class="cite xref">I-D.draft-havel-opsawg-digital-map</a>]</span>.
 The current version of the ietf-l3-isis-topology module is based on the current version of <span>[<a href="#RFC8345" class="cite xref">RFC8345</a>]</span>.
-The following will be addressed when <span>[<a href="#RFC8345" class="cite xref">RFC8345</a>]</span> is extended to support the identified limitations:
-- Both IS-IS domain and IS-IS areas could be modelled as networks
-- The IS-IS Areas will be connected via IS-IS links
-- IS-IS nodes could belong to multiple IS-IS networks<a href="#section-4-6" class="pilcrow">¶</a></p>
-<p id="section-4-7">There is a set of parameters and augmentations that are included at the network level.<a href="#section-4-7" class="pilcrow">¶</a></p>
+The following will be addressed when <span>[<a href="#RFC8345" class="cite xref">RFC8345</a>]</span> is extended to support the identified limitations:<a href="#section-4-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4-8.1">
-          <p id="section-4-8.1.1">Network-types: Its presence identifies the IS-IS topology type. Thus, the network type MUST be isis-topology.<a href="#section-4-8.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4-7.1">
+          <p id="section-4-7.1.1">Both IS-IS domain and IS-IS areas could be modelled as networks<a href="#section-4-7.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-7.2">
+          <p id="section-4-7.2.1">The IS-IS Areas will be connected via IS-IS links<a href="#section-4-7.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-7.3">
+          <p id="section-4-7.3.1">IS-IS nodes could belong to multiple IS-IS networks<a href="#section-4-7.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-4-9">There is a set of parameters and augmentations that are included at the node level. Each parameter and description are detailed following:<a href="#section-4-9" class="pilcrow">¶</a></p>
+<p id="section-4-8">There is a set of parameters and augmentations that are included at the network level.<a href="#section-4-8" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4-10.1">
-          <p id="section-4-10.1.1">IS-IS node core attributes: contains the IS-IS core attributes (system-id, level, area-address).<a href="#section-4-10.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-4-10.2">
-          <p id="section-4-10.2.1">IS-IS timer attributes: Identifies the node timer attributes configured in the network element. They are LSP lifetime and the LSP refresh interval.<a href="#section-4-10.2.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4-9.1">
+          <p id="section-4-9.1.1">Network-types: Its presence identifies the IS-IS topology type. Thus, the network type MUST be isis-topology.<a href="#section-4-9.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-4-11">There is a set of parameters and augmentations that are included at the link level. Each parameter and description are detailed following:
-- IS-IS link level. The level must be the same as the termination points at each end for Level 1 and Level 2 interfaces. There may be 2 links
-between the Level1-2 IS-IS interfaces, one for Level 1 adjacency and one for Level 2 adjacency.
-- IS-IS link metric. Added on top of metric1 and metric2 of the l3-link-attributes<a href="#section-4-11" class="pilcrow">¶</a></p>
-<p id="section-4-12">There is a  set of parameters and augmentations are included at the termination point level. Each parameter is listed as follows:
-- Interface-type: point-to point or braodcast
-- Level. The level must be the same as for the node, except when node is Level 1-2 and the interfaces can only be Level 1 or Level 2.
-- Passive mode<a href="#section-4-12" class="pilcrow">¶</a></p>
+<p id="section-4-10">There is a set of parameters and augmentations that are included at the node level. Each parameter and description are detailed following:<a href="#section-4-10" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4-11.1">
+          <p id="section-4-11.1.1">IS-IS node core attributes: contains the IS-IS core attributes (system-id, level, area-address).<a href="#section-4-11.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-11.2">
+          <p id="section-4-11.2.1">IS-IS timer attributes: Identifies the node timer attributes configured in the network element. They are LSP lifetime and the LSP refresh interval.<a href="#section-4-11.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-4-12">There is a set of parameters and augmentations that are included at the link level. Each parameter and description are detailed following:<a href="#section-4-12" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4-13.1">
+          <p id="section-4-13.1.1">IS-IS link level. The level must be the same as the termination points at each end for Level 1 and Level 2 interfaces. There may be 2 links
+between the Level1-2 IS-IS interfaces, one for Level 1 adjacency and one for Level 2 adjacency.<a href="#section-4-13.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-13.2">
+          <p id="section-4-13.2.1">IS-IS link metric. Added on top of metric1 and metric2 of the l3-link-attributes<a href="#section-4-13.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-4-14">There is a  set of parameters and augmentations are included at the termination point level. Each parameter is listed as follows:<a href="#section-4-14" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4-15.1">
+          <p id="section-4-15.1.1">Interface-type: point-to point or braodcast<a href="#section-4-15.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-15.2">
+          <p id="section-4-15.2.1">Level. The level must be the same as for the node, except when node is Level 1-2 and the interfaces can only be Level 1 or Level 2.<a href="#section-4-15.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-4-15.3">
+          <p id="section-4-15.3.1">Passive mode<a href="#section-4-15.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 </section>
 </div>
 <div id="ietf-l3-isis-topology-tree">
