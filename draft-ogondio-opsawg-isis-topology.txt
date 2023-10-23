@@ -5,13 +5,13 @@
 opsawg                                                     O. G. D. Dios
 Internet-Draft                                                Telefonica
 Intended status: Standards Track                           S. B. Giraldo
-Expires: 11 January 2024                                        V. Lopez
+Expires: 25 April 2024                                          V. Lopez
                                                                    Nokia
                                                            D. Ceccarelli
                                                                    Cisco
                                                                B. Claise
                                                                   Huawei
-                                                            10 July 2023
+                                                         23 October 2023
 
 
 A YANG Data Model for Intermediate System to intermediate System (IS-IS)
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 January 2024.
+   This Internet-Draft will expire on 25 April 2024.
 
 Copyright Notice
 
@@ -105,6 +105,14 @@ Table of Contents
    [RFC8346] by adding IS-IS concepts.  This YANG data model is used to
    export the IS-IS related topology directly from a network controller
    to an Operation Support System (OSS) tools.
+
+   Note that the YANG model is in this document strictly adhere to the
+   concepts (and the YANG module) in "A YANG Data Model for Network
+   Topologies" [RFC8345] and"A YANG Data Model for Layer 3 Topologies"
+   [RFC8346].  While investigating the IS-IS topology, some limitations
+   have discovered in [RFC8345], regarding how the digital map can be
+   represented.  Those limitations (and potential improvements) are
+   covered in [I-D.draft-havel-opsawg-digital-map].
 
    This document explains the scope and purpose of the IS-IS topology
    model and how the topology and service models fit together.  The YANG
@@ -177,7 +185,7 @@ Table of Contents
    permit these tools simulating the IP routing.  By adding the traffic
    demand, ideally at the IP flow level, we can simulate the traffic
    growth and its effect on the routing.  That is, simulating how IP-
-   level traffic demands would be forwarded, after ISIS convergence is
+   level traffic demands would be forwarded, after IS-IS convergence is
    reached, and from there estimating, using appropriate mathematical
    models, related KPIs like the occupation in the links or end-to-end
    latencies.
@@ -211,9 +219,8 @@ Table of Contents
    still expected to be used for individual network elements
    configuration and monitoring.  On the other hand, the proposed YANG
    model in this document covers the abstracted view of the entire
-   network topology containing Intermediate System to Intermediate
-   System (IS-IS).  As such, this model is available via the NBI of SDN
-   controllers.
+   network topology containing IS-IS.  As such, this model is available
+   via the NBI of SDN controllers.
 
 2.2.  Relationship with Digital Map
 
@@ -241,11 +248,11 @@ Table of Contents
    IP/MPLS Networks can contain multiple domain IGP domains.  We can
    define an IGP domain as the collection of nodes and links that
    participate in the same IGP process.  The topology information of a
-   domain can be structured according to ietf-network-topology
-   information model [RFC8345].  For example, if BGP-LS is used to
-   collect the information, the nodes and links that are announced with
-   the same combination of AS number / are considered to belong to the
-   same domain.
+   domain can be structured according to ietf-network-topology data
+   model [RFC8345].  For example, if BGP-LS is used to collect the
+   information, the nodes and links that are announced with the same
+   combination of AS number / are considered to belong to the same
+   domain.
 
    If a node and/or layer termination point participates in more than
    one IGP it will be present in multiple IGP domain networks.
@@ -254,11 +261,11 @@ Table of Contents
    indicate it is a domain running an IGP instance:
 
    A network-id that uniquely identifies such domain in the network.
-   The "network-types property should include the l3t:l3-unicast-
+   The "network-types" property should include the l3t:l3-unicast-
    topology, to indicate it is a network in which the nodes are capable
-   of forwarding unicast packet.  Also, this draft proposed to ade a new
-   property, isis-topology, to indicate the topology being represented
-   is running an IGP process.
+   of forwarding unicast packet.  Also, this draft proposed to add a new
+   property, "isis-topology", to indicate the topology being represented
+   is running the IS-IS IGP process.
 
    Also, should the topology include information such as bandwidth,
    delay information or color, it must include tet:te-topology.  To
@@ -272,7 +279,7 @@ Table of Contents
 4.  YANG Data Model for IS-IS Topology
 
    The abstract (base) network data model is defined in the "ietf-
-   network" module of [RFC8345].  The ISIS-topology builds on the
+   network" module of [RFC8345].  The isis-topology builds on the
    network data model defined in the "ietf-network" module [RFC8345],
    augmenting the nodes with IS-IS information, which anchor the links
    and are contained in nodes).
@@ -307,25 +314,33 @@ Table of Contents
    Figure 1 below shows the tree diagram of the YANG data model defined
    in module ietf-l3-isis-topology.yang (Section 6).
 
- module: ietf-l3-isis-topology
-   augment /nw:networks/nw:network/nw:network-types:
-     +--rw isis-topology!
-   augment /nw:networks/nw:network/nw:node/l3t:l3-node-attributes:
-     +--rw isis-timer-attributes
-     |  +--rw lsp-lifetime?           string
-     |  +--rw lsp-refresh-interval?   string
-     +--rw isis-status
-        +--rw level?          ietf-isis:level
-        +--rw area-address*   ietf-isis:area-address
-        +--ro neighbours*     inet:ip-address
-   augment .../nt:termination-point/l3t:l3-termination-point-attributes:
-     +--rw isis-termination-point-attributes
-        +--rw interface-type?   identityref
-        +--rw level?            ietf-isis:level
-        +--rw metric?           uint64
-        +--rw is-passive?       boolean
+module: ietf-l3-isis-topology
 
-                 Figure 1: IS-IS Topology tree diagram
+  augment /nw:networks/nw:network/nw:network-types:
+    +--rw isis-topology!
+  augment /nw:networks/nw:network/nw:node/l3t:l3-node-attributes:
+    +--rw isis-timer-attributes
+    |  +--rw lsp-lifetime?           uint16
+    |  +--rw lsp-refresh-interval?   uint16
+    +--rw isis-status
+       +--rw level?          ietf-isis:level
+       +--rw area-address*   ietf-isis:area-address
+       +--rw system-id?      ietf-isis:system-id
+       +--ro neighbors*      inet:ip-address
+  augment /nw:networks/nw:network/nt:link/l3t:l3-link-attributes:
+    +--rw isis-termination-point-attributes
+       +--rw interface-type?   ietf-isis:interface-type
+       +--rw level?            ietf-isis:level
+       +--rw metric?           uint32
+       +--rw is-passive?       boolean
+  augment /nw:networks/nw:network/nw:node/nt:termination-point/l3t:l3-termination-point-attributes:
+    +--rw isis-termination-point-attributes
+       +--rw interface-type?   ietf-isis:interface-type
+       +--rw level?            ietf-isis:level
+       +--rw metric?           uint32
+       +--rw is-passive?       boolean
+
+                Figure 1: IS-IS Topology tree diagram
 
 6.  YANG Model for IS-IS topology
 
@@ -380,7 +395,7 @@ Table of Contents
        Editor:   Samier Barguil
                  <mailto:samier.barguilgiraldo.ext@telefonica.com>
        Editor:   Victor Lopez
-                 <mailto:victor.lopez@nokia.com>";
+                 <mailto:victor.lopez@nokia.com>;
        Editor:   Benoit Claise
                  <mailto:benoit.claise@huwaei.com>";
      description
